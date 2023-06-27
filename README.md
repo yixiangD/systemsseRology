@@ -14,7 +14,7 @@ BiocManager::install("ropls")
 It can then be installed via devtools:
 ``` r
 install.packages("devtools")
-install_github("LoosC/systemsseRology", ref = "reboot")
+devtools::install_github("LoosC/systemsseRology", ref = "reboot")
 library(systemsseRology)
 ```
 
