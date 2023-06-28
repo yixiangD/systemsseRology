@@ -19,8 +19,7 @@ train_ropls <- function(X, y, options = list()) {
                          permI = 0, # no permutation and other output to save computation time
                          predI = predI,
                          info.txtC = "none",
-                         fig.pdfC = "none",
-                         silent = TRUE
+                         fig.pdfC = "none"
                          )
   )
   if (is(try_out, "try-error")) {
@@ -30,8 +29,7 @@ train_ropls <- function(X, y, options = list()) {
                          crossvalI = 5,
                          permI = 0,
                          info.txtC = "none",
-                         fig.pdfC = "none",
-                         silent = TRUE
+                         fig.pdfC = "none"
                          )
   }
 
@@ -50,7 +48,7 @@ train_ropls <- function(X, y, options = list()) {
 predict_ropls <- function(model, X) {
   # suppress annoying "error"s from ropls
   sink(file = tempfile())
-  y_pred <- ropls::predict(model, newdata = X, silent = TRUE)
+  y_pred <- ropls::predict(model, newdata = X)
   sink()
   return(y_pred)
 }
@@ -69,8 +67,7 @@ pca_ropls <- function(X) {
                            crossvalI = 5, # TODO make this an option
                            permI = 0, # no permutation and other output to save computation time
                            info.txtC = "none",
-                           fig.pdfC = "none",
-                           silent = TRUE
+                           fig.pdfC = "none"
                            )
     )
     if (is(try_out, "try-error") | ropls::getSummaryDF(model)$pre < 2) {
@@ -79,8 +76,7 @@ pca_ropls <- function(X) {
                            crossvalI = 5,
                            permI = 0,
                            info.txtC = "none",
-                           fig.pdfC = "none",
-                           silent = TRUE
+                           fig.pdfC = "none"
                            )
     }
   sink()
