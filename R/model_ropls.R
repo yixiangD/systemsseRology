@@ -15,7 +15,7 @@ train_ropls <- function(X, y, options = list()) {
     predI <- NA
   }
   try_out <- try(model <- ropls::opls(X, y,
-                         crossValI = 5, # TODO make this an option
+                         crossvalI = 5, # TODO make this an option
                          permI = 0, # no permutation and other output to save computation time
                          predI = predI,
                          info.txtC = "none",
@@ -27,7 +27,7 @@ train_ropls <- function(X, y, options = list()) {
     # No model could be build, provide a model with one latent variable
     # (even if this is not significant)
     model <- ropls::opls(X, y, predI = 1,
-                         crossValI = 5,
+                         crossvalI = 5,
                          permI = 0,
                          info.txtC = "none",
                          fig.pdfC = "none",
@@ -66,7 +66,7 @@ pca_ropls <- function(X) {
   sink(file = tempfile())
     try_out <- try(
       model <- ropls::opls(X, predI = NA,
-                           crossValI = 5, # TODO make this an option
+                           crossvalI = 5, # TODO make this an option
                            permI = 0, # no permutation and other output to save computation time
                            info.txtC = "none",
                            fig.pdfC = "none",
@@ -76,7 +76,7 @@ pca_ropls <- function(X) {
     if (is(try_out, "try-error") | ropls::getSummaryDF(model)$pre < 2) {
       # to ensure that the model has at least two prinicipal components
       model <- ropls::opls(X, predI = 2,
-                           crossValI = 5,
+                           crossvalI = 5,
                            permI = 0,
                            info.txtC = "none",
                            fig.pdfC = "none",
