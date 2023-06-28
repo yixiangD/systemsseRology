@@ -8,7 +8,6 @@ library("writexl")
 library(tools)
 library(systemsseRology)
 library(ggplot2)
-
 library(patchwork)
 
 # load data----
@@ -69,10 +68,11 @@ visit <- args[2]
 
 # for testing-----
 # study <- "3005"
-# visit <- "VISIT 2"
+# visit <- "VISIT 5"
 
 stopifnot(study %in% c("3005", "3010"))
 stopifnot(visit %in% c("VISIT 2", "VISIT 5"))
+
 col.feat <- colnames(df)[grepl("Ig|Fc|AD", colnames(df))]
 
 if (study == "3005") {
@@ -90,9 +90,7 @@ if (visit == "VISIT 2") {
   col.feat <- col.feat[!grepl("6A", col.feat)]
 } else {
   df.local$Vaccine <- df.local$group
-  
   my_colors <- list(group = color.group)
-
 }
 
 col.sel <- col.feat[!grepl("CRM|HSA|HA", col.feat)]
@@ -120,7 +118,14 @@ df_features <- data.frame(
 )
 
 # Feature selection-----
+
 opts_sel <- list(threshold = 0.8, n_trials = 100, return_count = TRUE)
+if (min(table(y)) <= 5) {
+  X <- rbind(X, X)
+  y <- c(y, y)
+  y <- factor(y)
+}
+
 out <- select_repeat(X, y, selector = select_lasso, options = opts_sel)
 
 df_count <- data.frame(
@@ -129,6 +134,7 @@ df_count <- data.frame(
   selected = out$feature_count * 100 / opts_sel$n_trials,
   mark = NA
 )
+
 df_count <- df_count[which(df_count$selected > 0), ]
 df_count <- df_count[order(-df_count$selected), ]
 df_count$features <- df_features$label[match(df_count$features, df_features$name)]
