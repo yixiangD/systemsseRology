@@ -1,4 +1,15 @@
-# roll back
+#' Compute linear model
+#'
+#' @param data n_samples x n_features matrix
+#' @param colstart feature start column number
+#' @param colend feature end column number
+#' @param null_list null model variables
+#' @param add_variable additional variables
+#' @param like likelihood ratio
+#'
+#' @return lm  linear model
+#' @export
+#'
 
 # library(lmtest)
 cal_volcano_simple <-
@@ -140,7 +151,18 @@ cal_volcano_simple <-
     return(lmm)
   }
 
-
+#' Plot linear model
+#'
+#' @param data n_samples x n_features matrix
+#' @param filename str
+#' @param title str
+#' @param foldername str
+#' @param pthreshold p value threshold
+#' @param col.arms arms vector
+#'
+#' @return p  ploting object
+#' @export
+#'
 plot_volcano <-
   function(data,
            filename,
