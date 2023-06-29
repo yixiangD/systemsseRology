@@ -64,9 +64,11 @@ select_lasso <- function(X, y, options = list()) {
 
   # fit an appropriate lasso model with a number of trials corresponding to
   # different values of lambda
-  lasso <- glmnet::cv.glmnet(X, y, type.measure = "mse", alpha = options$alpha,
-                             family = fam, type.multinomial = "grouped",
-                             nfolds = options$subfolds)
+  lasso <- glmnet::cv.glmnet(X, y,
+    type.measure = "mse", alpha = options$alpha,
+    family = fam, type.multinomial = "grouped",
+    nfolds = options$subfolds
+  )
 
   # lasso$lambda[k] is the value of lambda in the k-th trial
   # lasso$nzero[k] is the number of non-zero coefficients in the fitted model
@@ -96,7 +98,7 @@ select_lasso <- function(X, y, options = list()) {
   }
 
   # remove the intercept and the entries that are zero
-  lasso_coeffs <- lasso_coeffs[-1,]
+  lasso_coeffs <- lasso_coeffs[-1, ]
   lasso_coeffs <- lasso_coeffs[which(lasso_coeffs != 0)]
 
   # return the names of the selected features. previous code turned

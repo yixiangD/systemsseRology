@@ -8,7 +8,6 @@
 #' @export
 #'
 visualize_ropls_scores <- function(model, y, options = list()) {
-
   # ----------------- OPTIONS ----------------- #
   if (!("alpha" %in% names(options))) {
     options$alpha <- 1
@@ -41,13 +40,13 @@ visualize_ropls_scores <- function(model, y, options = list()) {
   # color for the scores and name of the grouping
   if (!("colors" %in% names(options)) | length(grep(y_name, names(options$colors))) == 0) {
     if (is.factor(y)) {
-        tmp <- rep(NA, length = nlevels(y))
-        names(tmp) <- levels(y)
-        for (ind in 1:nlevels(y)) {
-          tmp[ind] <- RColorBrewer::brewer.pal(n = max(3, nlevels(y)), name = 'Dark2')[ind]
-        }
-        options$colors <- list()
-        options$colors[[y_name]] <- tmp
+      tmp <- rep(NA, length = nlevels(y))
+      names(tmp) <- levels(y)
+      for (ind in 1:nlevels(y)) {
+        tmp[ind] <- RColorBrewer::brewer.pal(n = max(3, nlevels(y)), name = "Dark2")[ind]
+      }
+      options$colors <- list()
+      options$colors[[y_name]] <- tmp
     } else {
       # For regression, a color palette needs to be provided
       options$colors$y <- list(low = "#C7E4F9", high = "#004D7F")
@@ -58,10 +57,10 @@ visualize_ropls_scores <- function(model, y, options = list()) {
   # which latent variables to check, defaults to the first two
   # if they are provided, ensure that the model has the required number of LVs
   if (!("LV_ind" %in% names(options))) {
-    options$LV_ind <- c(1,2)
+    options$LV_ind <- c(1, 2)
   } else if (ropls::getSummaryDF(model)$pre +
-             ropls::getSummaryDF(model)$ort < max(options$LV_ind)) {
-      stop("required LV exceed existing LVs")
+    ropls::getSummaryDF(model)$ort < max(options$LV_ind)) {
+    stop("required LV exceed existing LVs")
   } else if (!(length(options$LV_ind) == 2)) {
     stop("two LVs required")
   }
@@ -71,18 +70,24 @@ visualize_ropls_scores <- function(model, y, options = list()) {
   # check first whether its a orthogonal PLS or a regular PLS
   if (ropls::getSummaryDF(model)$ort > 0) {
     if (options$LV_ind[1] == 1) {
-      df_scores <- data.frame(LV1 = ropls::getScoreMN(model),
-                              LV2 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1],
-                              y = y)
+      df_scores <- data.frame(
+        LV1 = ropls::getScoreMN(model),
+        LV2 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1],
+        y = y
+      )
     } else {
-      df_scores <- data.frame(LV1 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[1] - 1],
-                              LV2 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1],
-                              y = y)
+      df_scores <- data.frame(
+        LV1 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[1] - 1],
+        LV2 = ropls::getScoreMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1],
+        y = y
+      )
     }
   } else {
-    df_scores <- data.frame(LV1 = ropls::getScoreMN(model)[,options$LV_ind[1]],
-                            LV2 = ropls::getScoreMN(model)[,options$LV_ind[2]],
-                            y = y)
+    df_scores <- data.frame(
+      LV1 = ropls::getScoreMN(model)[, options$LV_ind[1]],
+      LV2 = ropls::getScoreMN(model)[, options$LV_ind[2]],
+      y = y
+    )
   }
   # --------------------- END GET SCORES ------------------- #
 
@@ -91,21 +96,31 @@ visualize_ropls_scores <- function(model, y, options = list()) {
   plt_scores <- ggplot2::ggplot(df_scores, ggplot2::aes(LV1, LV2, fill = y)) +
     ggplot2::geom_vline(xintercept = 0, size = 0.3) +
     ggplot2::geom_hline(yintercept = 0, size = 0.3) +
-    ggplot2::geom_point(color = "black",
-                        size = options$size,
-                        alpha = options$alpha,
-                        stroke = options$stroke,
-                        shape = 21,
-                        show.legend = TRUE) +
-    ggplot2::labs(x = paste("scores on LV", options$LV_ind[1], " (",
-                            toString(round(model@modelDF$R2X[options$LV_ind[1]] * 100)), "%)", sep = ""),
-                  y = paste("scores on LV", options$LV_ind[2], " (",
-                            toString(round(model@modelDF$R2X[options$LV_ind[2]] * 100)), "%)", sep = ""),
-                  fill = y_name, color = y_name) +
+    ggplot2::geom_point(
+      color = "black",
+      size = options$size,
+      alpha = options$alpha,
+      stroke = options$stroke,
+      shape = 21,
+      show.legend = TRUE
+    ) +
+    ggplot2::labs(
+      x = paste("scores on LV", options$LV_ind[1], " (",
+        toString(round(model@modelDF$R2X[options$LV_ind[1]] * 100)), "%)",
+        sep = ""
+      ),
+      y = paste("scores on LV", options$LV_ind[2], " (",
+        toString(round(model@modelDF$R2X[options$LV_ind[2]] * 100)), "%)",
+        sep = ""
+      ),
+      fill = y_name, color = y_name
+    ) +
     ggplot2::theme_classic() +
-    ggplot2::theme(legend.position = "right",
-                   aspect.ratio = 1,
-                   axis.text = ggplot2::element_text(color = "black"))
+    ggplot2::theme(
+      legend.position = "right",
+      aspect.ratio = 1,
+      axis.text = ggplot2::element_text(color = "black")
+    )
 
   # in the case of a classification, add ellipses
   if (is.factor(y)) {
@@ -133,15 +148,14 @@ visualize_ropls_scores <- function(model, y, options = list()) {
 #' @export
 #'
 visualize_ropls_loadings <- function(model, options = list()) {
-
   # ----------------- BEGIN OPTIONS I ----------------- #
   if (!("loading_alpha" %in% names(options))) {
     options$loading_alpha <- 0.8
   }
   if (!("LV_ind" %in% names(options))) {
-    options$LV_ind <- c(1,2)
+    options$LV_ind <- c(1, 2)
   } else if (ropls::getSummaryDF(model)$pre +
-             ropls::getSummaryDF(model)$ort < max(options$LV_ind)) {
+    ropls::getSummaryDF(model)$ort < max(options$LV_ind)) {
     stop("required LV exceed existing LVs")
   } else if (!(length(options$LV_ind) == 2)) {
     stop("two LVs required")
@@ -154,15 +168,21 @@ visualize_ropls_loadings <- function(model, options = list()) {
   # check first whether its a orthogonal PLS or a regular PLS
   if (ropls::getSummaryDF(model)$ort > 0) {
     if (options$LV_ind[1] == 1) {
-      df_loadings <- data.frame(LV1 = ropls::getLoadingMN(model),
-                                LV2 = ropls::getLoadingMN(model, orthoL = TRUE)[,options$LV_ind[2] - 1])
+      df_loadings <- data.frame(
+        LV1 = ropls::getLoadingMN(model),
+        LV2 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1]
+      )
     } else {
-      df_loadings <- data.frame(LV1 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[1] - 1],
-                                LV2 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1])
+      df_loadings <- data.frame(
+        LV1 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[1] - 1],
+        LV2 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1]
+      )
     }
   } else {
-    df_loadings <- data.frame(LV1 = ropls::getLoadingMN(model)[,options$LV_ind[1]],
-                              LV2 = ropls::getLoadingMN(model)[,options$LV_ind[2]])
+    df_loadings <- data.frame(
+      LV1 = ropls::getLoadingMN(model)[, options$LV_ind[1]],
+      LV2 = ropls::getLoadingMN(model)[, options$LV_ind[2]]
+    )
   }
 
   # ----------------- END GET LOADINGS  ----------------- #
@@ -172,8 +192,10 @@ visualize_ropls_loadings <- function(model, options = list()) {
   # ----------------- BEGIN OPTIONS II----------------- #
 
   if (!("df_features" %in% names(options))) {
-    options$df_features <- data.frame(name = rownames(df_loadings),
-                                      label = rownames(df_loadings))
+    options$df_features <- data.frame(
+      name = rownames(df_loadings),
+      label = rownames(df_loadings)
+    )
   }
 
   if ("color_features" %in% names(options)) {
@@ -181,15 +203,21 @@ visualize_ropls_loadings <- function(model, options = list()) {
       stop(paste(options$color_features, "is not defined in df_features"))
     }
     if (!("colors" %in% names(options))) {
-       options$colors[[options$color_features]] <- colorRampPalette(RColorBrewer::brewer.pal(name = "Dark2",
-                                                   n = 8))(nlevels(options$df_features[,options$color_features]))
+      options$colors[[options$color_features]] <- colorRampPalette(RColorBrewer::brewer.pal(
+        name = "Dark2",
+        n = 8
+      ))(nlevels(options$df_features[, options$color_features]))
     } else if (!(options$color_feature %in% names(options$colors))) {
-      options$colors[[options$color_features]] <- colorRampPalette(RColorBrewer::brewer.pal(name = "Dark2",
-                                                   n = 8))(nlevels(options$df_features[,options$color_features]))
+      options$colors[[options$color_features]] <- colorRampPalette(RColorBrewer::brewer.pal(
+        name = "Dark2",
+        n = 8
+      ))(nlevels(options$df_features[, options$color_features]))
     }
     df_loadings[[options$color_features]] <-
-      options$df_features[match(rownames(df_loadings), options$df_features$name),
-                          options$color_features]
+      options$df_features[
+        match(rownames(df_loadings), options$df_features$name),
+        options$color_features
+      ]
   }
   # ----------------- END OPTIONS II ----------------- #
 
@@ -197,37 +225,55 @@ visualize_ropls_loadings <- function(model, options = list()) {
 
   # ----------------- BEGIN VISUALIZATION ----------------- #
 
-  df_loadings$label <- options$df_features$label[match(rownames(df_loadings),
-                                                       options$df_features$name)]
+  df_loadings$label <- options$df_features$label[match(
+    rownames(df_loadings),
+    options$df_features$name
+  )]
 
-  plt_loadings <-  ggplot2::ggplot(df_loadings, ggplot2::aes(LV1, LV2)) +
+  plt_loadings <- ggplot2::ggplot(df_loadings, ggplot2::aes(LV1, LV2)) +
     ggplot2::geom_vline(xintercept = 0, size = 0.3) +
     ggplot2::geom_hline(yintercept = 0, size = 0.3) +
-    ggplot2::labs(x = "loadings on LV1",
-                  y = "loadings on LV2") +
+    ggplot2::labs(
+      x = "loadings on LV1",
+      y = "loadings on LV2"
+    ) +
     ggplot2::theme_classic() +
-    ggplot2::theme(aspect.ratio = 1,
-          axis.text =  ggplot2::element_text(color = "black"))
+    ggplot2::theme(
+      aspect.ratio = 1,
+      axis.text = ggplot2::element_text(color = "black")
+    )
 
   if ("color_features" %in% names(options)) {
     plt_loadings <- plt_loadings +
-      ggplot2::geom_point(size = 0.5,
-                          ggplot2::aes_string(color = options$color_features)) +
-      ggplot2::geom_segment(y = 0, x = 0,
-                            ggplot2::aes_string(xend = "LV1", yend = "LV2",
-                            color = options$color_features),
-                 alpha = options$loading_alpha) +
-      ggrepel::geom_text_repel(size = 3,
-                               ggplot2::aes_string(color = options$color_features,
-                                                   label = "label")) +
+      ggplot2::geom_point(
+        size = 0.5,
+        ggplot2::aes_string(color = options$color_features)
+      ) +
+      ggplot2::geom_segment(
+        y = 0, x = 0,
+        ggplot2::aes_string(
+          xend = "LV1", yend = "LV2",
+          color = options$color_features
+        ),
+        alpha = options$loading_alpha
+      ) +
+      ggrepel::geom_text_repel(
+        size = 3,
+        ggplot2::aes_string(
+          color = options$color_features,
+          label = "label"
+        )
+      ) +
       ggplot2::scale_color_manual(values = options$colors[[options$color_features]])
   } else {
-    plt_loadings <-  plt_loadings +
+    plt_loadings <- plt_loadings +
       ggplot2::geom_point(size = 0.5) +
-      ggplot2::geom_segment(y = 0, x = 0,
-                            ggplot2::aes(xend = LV1, yend = LV2),
-                   alpha = options$loading_alpha) +
-      ggrepel::geom_text_repel(size = 3,  ggplot2::aes(label = label))
+      ggplot2::geom_segment(
+        y = 0, x = 0,
+        ggplot2::aes(xend = LV1, yend = LV2),
+        alpha = options$loading_alpha
+      ) +
+      ggrepel::geom_text_repel(size = 3, ggplot2::aes(label = label))
   }
 
   # ----------------- END VISUALIZATION ----------------- #
@@ -245,7 +291,6 @@ visualize_ropls_loadings <- function(model, options = list()) {
 #' @export
 #'
 visualize_ropls_loadings_bar <- function(model, options = list()) {
-
   # ----------------- BEGIN OPTIONS ----------------- #
   if (!("LV_ind" %in% names(options))) {
     options$LV_ind <- c(1)
@@ -263,7 +308,7 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
   if (!("mark_enrichment" %in% names(options)) | is.na(n_groups)) {
     options$mark_enrichment <- FALSE
   }
-  if (options$mark_enrichment & (is.na(n_groups) | !("X" %in% names(options))))  {
+  if (options$mark_enrichment & (is.na(n_groups) | !("X" %in% names(options)))) {
     stop("Enrichment only works for classification and when X and y are provided")
   }
 
@@ -279,7 +324,7 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
       tmp <- rep(NA, length = nlevels(y))
       names(tmp) <- levels(y)
       for (ind in 1:nlevels(y)) {
-        tmp[ind] <- RColorBrewer::brewer.pal(n = max(3, nlevels(y)), name = 'Dark2')[ind]
+        tmp[ind] <- RColorBrewer::brewer.pal(n = max(3, nlevels(y)), name = "Dark2")[ind]
       }
       options$colors <- list()
       options$colors[[y_name]] <- tmp
@@ -290,13 +335,15 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
   }
 
   if (ropls::getSummaryDF(model)$pre +
-      ropls::getSummaryDF(model)$ort < options$LV_ind) {
+    ropls::getSummaryDF(model)$ort < options$LV_ind) {
     stop("required LV exceed existing LVs")
   }
 
   if (!("df_features" %in% names(options))) {
-    options$df_features <- data.frame(name = rownames(model@loadingMN),
-                                      label = rownames(model@loadingMN))
+    options$df_features <- data.frame(
+      name = rownames(model@loadingMN),
+      label = rownames(model@loadingMN)
+    )
   }
 
   # ----------------- END OPTIONS ----------------- #
@@ -312,8 +359,10 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
     #                             LV2 = ropls::getLoadingMN(model, orthoL = TRUE)[, options$LV_ind[2] - 1])
     # }
   } else {
-    df_loadings <- data.frame(LV = ropls::getLoadingMN(model)[,options$LV_ind[1]],
-                              vip_scores = ropls::getVipVn(model))
+    df_loadings <- data.frame(
+      LV = ropls::getLoadingMN(model)[, options$LV_ind[1]],
+      vip_scores = ropls::getVipVn(model)
+    )
     df_loadings$features <- rownames(df_loadings)
     df_loadings$labels <- options$df_features$label[match(rownames(df_loadings), options$df_features$name)]
   }
@@ -329,12 +378,14 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
     for (ind_feat in 1:nrow(df_loadings)) {
       tmp_mean <- rep(NA, length = nlevels(y))
       for (ind_class in 1:nlevels(y)) {
-        tmp_mean[ind_class] <- mean(X[which(y == levels(y)[ind_class]),
-                                      which(colnames(X) == df_loadings$features[ind_feat])])
+        tmp_mean[ind_class] <- mean(X[
+          which(y == levels(y)[ind_class]),
+          which(colnames(X) == df_loadings$features[ind_feat])
+        ])
       }
       df_loadings$mark[ind_feat] <- levels(y)[which.max(tmp_mean)]
     }
-    df_loadings$mark  <- factor(df_loadings$mark, levels = levels(y))
+    df_loadings$mark <- factor(df_loadings$mark, levels = levels(y))
   }
 
   df_loadings <- df_loadings[order(df_loadings$vip_scores), ]
@@ -356,9 +407,7 @@ visualize_ropls_loadings_bar <- function(model, options = list()) {
     ggplot2::labs(fill = "enriched in") +
     ggplot2::scale_x_discrete(labels = df_loadings$labels) +
     ggplot2::theme_classic() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black"))#,
-                   #axis.text.y = element_text(colour = as.character(feature_annot$useColor[match(dfBar$features[order(dfBar$vipScores)],
-                                        # rownames(feature_annot))])))
-
+    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black")) # ,
+  # axis.text.y = element_text(colour = as.character(feature_annot$useColor[match(dfBar$features[order(dfBar$vipScores)],
+  # rownames(feature_annot))])))
 }
-

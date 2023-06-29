@@ -10,7 +10,6 @@
 #' @export
 #'
 select_repeat <- function(X, y, selector, options = list()) {
-
   # ----------------- BEGIN OPTIONS ----------------- #
   # How often it should be repeated
   if (!("n_trials" %in% names(options))) {

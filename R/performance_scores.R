@@ -24,7 +24,7 @@ score_accuracy <- function(y, y_pred) {
 score_mse <- function(y, y_pred) {
   num <- as.numeric(y)
   num_pred <- as.numeric(y_pred)
-  mse <- mean((num - num_pred) ^ 2)
+  mse <- mean((num - num_pred)^2)
   return(mse)
 }
 
@@ -40,8 +40,8 @@ score_r2 <- function(y, y_pred) {
   num <- as.numeric(y)
   num_pred <- as.numeric(y_pred)
   y_bar <- mean(num)
-  total_var <- sum((num - y_bar) ^ 2)
-  residual_var <- sum((num - num_pred) ^ 2)
+  total_var <- sum((num - y_bar)^2)
+  residual_var <- sum((num - num_pred)^2)
   r2 <- 1 - residual_var / total_var
   return(r2)
 }

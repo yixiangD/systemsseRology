@@ -30,8 +30,10 @@ multilevel_denoising <- function(X, X_labels) {
   for (lab in levels(X_labels)) {
     subject_inds <- X_labels == lab
     subject_means <- colMeans(X[subject_inds, ])
-    X[subject_inds, ] <- sweep(X[subject_inds, ], MARGIN = 2,
-                               STATS = subject_means, FUN = "-")
+    X[subject_inds, ] <- sweep(X[subject_inds, ],
+      MARGIN = 2,
+      STATS = subject_means, FUN = "-"
+    )
   }
 
   # finally z-score the entire data matrix X
