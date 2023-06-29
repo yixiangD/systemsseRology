@@ -5,10 +5,10 @@ col.sel <- colnames(data)[grepl("AUC", colnames(data))]
 
 library(dplyr)
 source("R/compute_correlation.R")
+df <- get_cor_tri(data, col.sel)
 df <- get_cor_col(data, col.sel, col.sel)
 df$signif <- systemsseRology::pval_to_asterisk(df$p)
 print(dim(df))
-
 library(ggplot2)
 fig.heatmap <-
     ggplot(data = df, aes(x = from, y = to, fill = cor)) +
