@@ -170,7 +170,6 @@ plot_volcano <-
            foldername,
            pthreshold,
            col.arms) {
-    # library(ggrepel)
     setwd(foldername)
 
     g.arms <- c("High", "Low")
@@ -189,7 +188,7 @@ plot_volcano <-
         linetype = "dashed"
       ) +
       scale_fill_manual(breaks = g.arms, values = col.arms) +
-      geom_text_repel(
+      ggrepel::geom_text_repel(
         size = 5.5,
         aes(colour = assay),
         show.legend = FALSE,
