@@ -64,14 +64,14 @@ cal_volcano_simple <-
           paste("y~ ", paste(all_list, collapse = " + "))
         print(paste("all: ", allformula))
         # null and alternative model
-        model.null <- lm(nullformula, data = data.z.y)
+        model.null <- stats::lm(nullformula, data = data.z.y)
         modelsum <- summary(model.null)
-        model.alternative <- lm(allformula, data = data.z.y)
+        model.alternative <- stats::lm(allformula, data = data.z.y)
         modelsum_alter <- summary(model.alternative)
         # rsquare
         rsquared_terms[(kk), 2] <- modelsum_alter[["r.squared"]]
         # values for volcanoplot
-        LRT <- lrtest(model.null, model.alternative)
+        LRT <- lmtest::lrtest(model.null, model.alternative)
         pvalue <- LRT$`Pr(>Chisq)`[2]
         beta <- modelsum_alter$coefficients[add_variable, 1]
         t.value <- modelsum_alter$coefficients[add_variable, 3]
@@ -94,7 +94,7 @@ cal_volcano_simple <-
           paste("y~ ", paste(null_list, collapse = " + "))
         print(paste("null: ", nullformula))
         # null and alternative model
-        model.null <- lm(nullformula, data = data.z.y)
+        model.null <- stats::lm(nullformula, data = data.z.y)
         modelsum <- summary(model.null)
         # # logistic model
         # model.null <- glm("pf ~ y", data = data.z.y, family= "binomial")
