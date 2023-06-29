@@ -32,3 +32,6 @@ systemsseRology has been employed in a number of papers, including:
 
 * Krystle, K. Q. et. al. (2021). [Comorbid illnesses are associated with altered adaptive immune responses to SARS-CoV-2.](https://insight.jci.org/articles/view/146242) JCI insight.
 
+### New features
+- Linear model
+- Compute correlation (TODO)
