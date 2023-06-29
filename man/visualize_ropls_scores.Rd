@@ -13,9 +13,6 @@ visualize_ropls_scores(model, y, options = list())
 
 \item{options}{options}
 }
-\value{
-
-}
 \description{
 Score plot
 }

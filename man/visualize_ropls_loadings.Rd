@@ -13,9 +13,6 @@ visualize_ropls_loadings(model, options = list())
 
 \item{y}{vector with labels}
 }
-\value{
-
-}
 \description{
 Loadings plot
 }

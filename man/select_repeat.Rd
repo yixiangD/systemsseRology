@@ -16,9 +16,6 @@ select_repeat(X, y, selector, options = list())
 
 \item{options}{options list}
 }
-\value{
-
-}
 \description{
 Repeat the feature selection and return features that are selected more
 often than a provided threshold

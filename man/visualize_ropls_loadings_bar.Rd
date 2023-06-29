@@ -11,9 +11,6 @@ visualize_ropls_loadings_bar(model, options = list())
 
 \item{ind_LV}{latent variable index}
 }
-\value{
-
-}
 \description{
 Barplot for loadings
 }
