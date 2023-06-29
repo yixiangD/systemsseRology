@@ -4,14 +4,14 @@
 \alias{get_cor_col}
 \title{Compute correlation for given columns A and columns B}
 \usage{
-get_cor_col(data, ab.labels, tcell.labels)
+get_cor_col(data, from.labels, to.labels)
 }
 \arguments{
-\item{data}{n_samples x n_features matrix}
+\item{data:}{n_samples x n_features matrix}
 
-\item{ab.labels}{features group A}
+\item{from.labels:}{features group A, vector of strings}
 
-\item{tcell.labels}{features group B}
+\item{to.labels:}{features group B, vector of strings}
 }
 \value{
 df data.frame with correlation and p value
