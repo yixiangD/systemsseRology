@@ -20,7 +20,7 @@ devtools::install_github("yixiangD/systemsseRology", ref = "main")
 library(systemsseRology)
 ```
 
-### New features (beginning 2023)
+### New features (starting from 2023)
 - Linear model
 - Compute correlation
 
