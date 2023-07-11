@@ -20,6 +20,10 @@ devtools::install_github("yixiangD/systemsseRology", ref = "main")
 library(systemsseRology)
 ```
 
+### New features (beginning 2023)
+- Linear model
+- Compute correlation
+
 ### Selected Papers
 systemsseRology has been employed in a number of papers, including:
 * Bartsch, Y. C. et. al. (2021). [Viral Rebound Kinetics Correlate with Distinct HIV Antibody Features. ](https://mbio.asm.org/content/12/2/e00170-21.abstract) Mbio, 12(2).
@@ -32,6 +36,3 @@ systemsseRology has been employed in a number of papers, including:
 
 * Krystle, K. Q. et. al. (2021). [Comorbid illnesses are associated with altered adaptive immune responses to SARS-CoV-2.](https://insight.jci.org/articles/view/146242) JCI insight.
 
-### New features
-- Linear model
-- Compute correlation (TODO)
