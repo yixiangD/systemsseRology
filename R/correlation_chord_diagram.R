@@ -39,7 +39,7 @@ draw_cor_chord <- function(df, feat.cols, title, pcut = 0.1, rcut = 0.5, colors 
     )
   )
 
-  pdf(title, width = 3, height = 2.5)
+  pdf(title, width = 2, height = 2)
   circlize::chordDiagram(
     circ,
     order = sections,
