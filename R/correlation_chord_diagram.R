@@ -54,10 +54,10 @@ draw_cor_chord <- function(df, feat.cols, title, pcut = 0.1, rcut = 0.5, colors 
   circlize::circos.track(
     track.index = 1,
     panel.fun = function(x, y) {
-      xlim <- get.cell.meta.data("xlim")
-      xplot <- get.cell.meta.data("xplot")
-      ylim <- get.cell.meta.data("ylim")
-      sector.name <- get.cell.meta.data("sector.index")
+      xlim <- circlize::get.cell.meta.data("xlim")
+      xplot <- circlize::get.cell.meta.data("xplot")
+      ylim <- circlize::get.cell.meta.data("ylim")
+      sector.name <- circlize::get.cell.meta.data("sector.index")
       if (abs(xplot[2] - xplot[1]) < 5.5) {
         circlize::circos.text(
           mean(xlim),
