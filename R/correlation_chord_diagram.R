@@ -64,7 +64,7 @@ draw_cor_chord <- function(df, feat.cols, title, pcut = 0.1, rcut = 0.5, colors 
           ylim[1],
           sector.name,
           facing = "clockwise",
-          cex = 0.18,
+          cex = 0.22,
           niceFacing = TRUE,
           adj = c(0, 0.5),
           col = "black"
