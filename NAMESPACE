@@ -2,6 +2,8 @@
 
 export(cal_volcano_simple)
 export(correlation_network)
+export(draw_cor_chord)
+export(gen_sec_color)
 export(get_cor_col)
 export(get_cor_tri)
 export(multilevel_denoising)
