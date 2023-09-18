@@ -91,6 +91,19 @@ draw_cor_chord <- function(df, feat.cols, title, pcut = 0.1, rcut = 0.5, colors 
     col = "black"
   ))
   dev.off()
+  title.reg <- paste0(gsub(".pdf", "", title), "_colormap.pdf")
+  pdf(title.reg, width = 2, height = 2)
+  df.temp <- data.frame(
+    x = runif(100),
+    y = runif(100),
+    z1 = rnorm(100),
+    z2 = abs(rnorm(100))
+  )
+
+  ggplot(df.temp, aes(x, y)) +
+    geom_point(aes(colour = z1)) +
+    scale_colour_gradient2(low = colors$min.color, high = colors$max.color, limits = c(-1, 1))
+  dev.off()
 }
 
 #' Generate palette for a chord diagram
