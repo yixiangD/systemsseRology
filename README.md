@@ -23,6 +23,7 @@ library(systemsseRology)
 ### New features (starting from 2023)
 - Linear model
 - Compute correlation
+- Visualize correlation as a chord diagram
 
 ### Selected Papers
 systemsseRology has been employed in a number of papers, including:
