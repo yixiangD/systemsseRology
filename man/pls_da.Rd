@@ -19,7 +19,10 @@ outcomes}
 
 \item{prefix, }{prefix to the file names}
 
-\item{feature_selection_th, }{feature selection threshold, optional}
+\item{feature_selection_th, }{feature selection threshold (optional)}
+}
+\value{
+None
 }
 \description{
 Partial Least Squares Discriminant Analysis (PLS-DA)

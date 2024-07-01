@@ -7,8 +7,8 @@
 #' outcomes
 #' @param saved.dir, exporting directory/path
 #' @param prefix, prefix to the file names
-#' @param feature_selection_th, feature selection threshold, optional
-#'
+#' @param feature_selection_th, feature selection threshold (optional)
+#' @return None
 #' @export
 
 pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8) {
