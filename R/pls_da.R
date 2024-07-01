@@ -62,18 +62,18 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
     # set additional options required to color code enrichment in the bar plot of the loadings
     plt_loadings_bar <-
       my_visualize_ropls_loadings_bar(model, options = opts_plot)
-    ggsave(
+    ggplot2::ggsave(
       paste(saved.dir, paste(prefix, "lv1.pdf", sep = "_"), sep = "/"),
-      plt_loadings_bar + theme(legend.position = "top"),
+      plt_loadings_bar + ggplot2::theme(legend.position = "top"),
       width = 4,
       height = 3
     )
     opts_plot$LV_ind <- 2
     plt_loadings_bar2 <-
       my_visualize_ropls_loadings_bar(model, options = opts_plot)
-    ggsave(
+    ggplot2::ggsave(
       paste(saved.dir, paste(prefix, "lv2.pdf", sep = "_"), sep = "/"),
-      plt_loadings_bar2 + theme(legend.position = "top"),
+      plt_loadings_bar2 + ggplot2::theme(legend.position = "top"),
       width = 4,
       height = 3
     )
