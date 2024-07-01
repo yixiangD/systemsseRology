@@ -65,12 +65,12 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
     # set additional options required to color code enrichment in the bar plot of the loadings
     # barplot LV1
     opts_plot$LV_ind <- 1
-    bar1 <- my_visualize_ropls_loadings_bar(model, options = opts_plot)
+    df_load1 <- pls_da_bar_stats(model, options = opts_plot)
 
     # barplot LV2
     opts_plot$LV_ind <- 2
-    bar2 <- my_visualize_ropls_loadings_bar(model, options = opts_plot)
-    return(list(feat = sel_features, df_score = df_scores, df_load1 = bar1$df_load, df_load2 = bar2$df_load))
+    df_load2 <- pls_da_bar_stats(model, options = opts_plot)
+    return(list(feat = sel_features, df_score = df_scores, df_load1 = df_load1, df_load2 = df_load2))
   }
 }
 
@@ -80,10 +80,9 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 #'
 #' @param model, trained ropls object
 #' @param options, list of plotting options
-#' @return a list [bar, df_load], bar is ggplot handle and data.frame containing loading values for each latent
-#' dimension
+#' @return df_load, data.frame containing loading values for each latent dimension
 #' @export
-my_visualize_ropls_loadings_bar <- function(model, options = list()) {
+pls_da_bar_stats <- function(model, options = list()) {
   # ----------------- BEGIN OPTIONS ----------------- #
   if (!("LV_ind" %in% names(options))) {
     options$LV_ind <- c(1)
@@ -174,23 +173,5 @@ my_visualize_ropls_loadings_bar <- function(model, options = list()) {
   df_loadings <- df_loadings[order(df_loadings$LV), ]
   df_loadings$features <- factor(df_loadings$features, levels = unique(df_loadings$features))
   # plot loadings sorted according to the VIP score and color coding it
-  # according to enrichent in classes
-  if (options$mark_enrichment) {
-    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = stringr::str_wrap(LV, 20), fill = mark)) +
-      ggplot2::scale_fill_manual(values = options$colors[[y_name]])
-  } else {
-    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = stringr::str_wrap(LV, 20)))
-  }
-  plt_bar <- plt_bar +
-    ggplot2::geom_bar(stat = "identity", color = "black") +
-    ggplot2::coord_flip() +
-    ggplot2::xlab("") +
-    ggplot2::ylab(paste("LV", options$LV_ind, " loadings", sep = "")) +
-    ggplot2::labs(fill = "enriched in") +
-    ggplot2::scale_x_discrete(labels = df_loadings$labels) +
-    ggplot2::theme_classic() +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black")) # ,
-  # axis.text.y = element_text(colour = as.character(feature_annot$useColor[match(dfBar$features[order(dfBar$vipScores)],
-  # rownames(feature_annot))])))
-  return(list(bar = plt_bar, df_load = df_loadings))
+  return(df_loadings)
 }
