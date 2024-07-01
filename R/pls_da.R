@@ -8,8 +8,8 @@
 #' @param saved.dir, exporting directory/path
 #' @param prefix, prefix to the file names
 #' @param feature_selection_th, feature selection threshold (optional)
-#' @return a list [sel_features, df_score] containing selected features and
-#' dataframe of latent space scores
+#' @return a list [sel_features, df_score, df_load1, df_load2] containing selected features and
+#' dataframe of latent space scores & dataframe of loadings
 #' @export
 
 pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8) {
@@ -37,7 +37,7 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 
   # The model only has one latent variable. For visualization purposes we fix it to be two dimensional.
   if (length(sel_features) == 1) {
-    return(list(feat = sel_features, df_score = NULL))
+    return(list(feat = sel_features, df_score = NULL, df_load = NULL))
   } else {
     X_sel <- X[, sel_features]
     opts_plot$X <- X_sel
@@ -56,31 +56,21 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 
     plt_scores_top_legend <- plt_scores + ggplot2::theme(legend.position = "top")
     ggplot2::ggsave(paste(saved.dir, paste(prefix, "score.pdf", sep = "_"), sep = "/"), plt_scores_top_legend, width = 4, height = 3)
-    opts_plot$LV_ind <- 1
+
     lvs <- ropls::getScoreMN(model)
     df_scores <- data.frame(lvs)
     df_scores$y <- y
     colnames(df_scores) <- c("LV1", "LV2", "group")
 
     # set additional options required to color code enrichment in the bar plot of the loadings
-    plt_loadings_bar <-
-      my_visualize_ropls_loadings_bar(model, options = opts_plot)
-    ggplot2::ggsave(
-      paste(saved.dir, paste(prefix, "lv1.pdf", sep = "_"), sep = "/"),
-      plt_loadings_bar + ggplot2::theme(legend.position = "top"),
-      width = 4,
-      height = 3
-    )
+    # barplot LV1
+    opts_plot$LV_ind <- 1
+    bar1 <- my_visualize_ropls_loadings_bar(model, options = opts_plot)
+
+    # barplot LV2
     opts_plot$LV_ind <- 2
-    plt_loadings_bar2 <-
-      my_visualize_ropls_loadings_bar(model, options = opts_plot)
-    ggplot2::ggsave(
-      paste(saved.dir, paste(prefix, "lv2.pdf", sep = "_"), sep = "/"),
-      plt_loadings_bar2 + ggplot2::theme(legend.position = "top"),
-      width = 4,
-      height = 3
-    )
-    return(list(feat = sel_features, df_score = df_scores))
+    bar2 <- my_visualize_ropls_loadings_bar(model, options = opts_plot)
+    return(list(feat = sel_features, df_score = df_scores, df_load1 = bar1$df_load, df_load2 = bar2$df_load))
   }
 }
 
@@ -90,7 +80,8 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 #'
 #' @param model, trained ropls object
 #' @param options, list of plotting options
-#' @return None
+#' @return a list [bar, df_load], bar is ggplot handle and data.frame containing loading values for each latent
+#' dimension
 #' @export
 my_visualize_ropls_loadings_bar <- function(model, options = list()) {
   # ----------------- BEGIN OPTIONS ----------------- #
@@ -201,4 +192,5 @@ my_visualize_ropls_loadings_bar <- function(model, options = list()) {
     ggplot2::theme(axis.text.x = ggplot2::element_text(color = "black")) # ,
   # axis.text.y = element_text(colour = as.character(feature_annot$useColor[match(dfBar$features[order(dfBar$vipScores)],
   # rownames(feature_annot))])))
+  return(list(bar = plt_bar, df_load = df_loadings))
 }

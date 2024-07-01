@@ -13,7 +13,8 @@ my_visualize_ropls_loadings_bar(model, options = list())
 \item{options, }{list of plotting options}
 }
 \value{
-None
+a list [bar, df_load], bar is ggplot handle and data.frame containing loading values for each latent
+dimension
 }
 \description{
 My customized plotting schemes for PLS-DA barplots

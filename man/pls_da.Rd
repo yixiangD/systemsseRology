@@ -22,8 +22,8 @@ outcomes}
 \item{feature_selection_th, }{feature selection threshold (optional)}
 }
 \value{
-a list [sel_features, df_score] containing selected features and
-dataframe of latent space scores
+a list [sel_features, df_score, df_load1, df_load2] containing selected features and
+dataframe of latent space scores & dataframe of loadings
 }
 \description{
 Partial Least Squares Discriminant Analysis (PLS-DA)
