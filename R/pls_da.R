@@ -52,7 +52,9 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 
     plt_scores <-
       visualize_ropls_scores(model, y, options = opts_plot)
-    ggplot2::ggsave(paste(saved.dir, paste(prefix, "score.pdf", sep = "_"), sep = "/"), plt_scores + theme(legend.position = "top"), width = 4, height = 3)
+
+    plt_scores_top_legend <- plt_scores + ggplot2::theme(legend.position = "top")
+    ggplot2::ggsave(paste(saved.dir, paste(prefix, "score.pdf", sep = "_"), sep = "/"), plt_scores_top_legend, width = 4, height = 3)
     opts_plot$LV_ind <- 1
     lvs <- ropls::getScoreMN(model)
     df_scores <- data.frame(lvs)
