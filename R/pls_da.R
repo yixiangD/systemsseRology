@@ -1,3 +1,16 @@
+#' Partial Least Squares Discriminant Analysis (PLS-DA)
+#' This function performs Partial Least Squares Discriminant Analysis on the given dataset.
+#'
+#' @param X, matrix of predictive features, rows for samples and columns for measurements
+#' @param y, vector of outcome variables
+#' @param clr.grps, color palettes vector, with names corresponding to possible
+#' outcomes
+#' @param saved.dir, exporting directory/path
+#' @param prefix, prefix to the file names
+#' @param feature_selection_th, feature selection threshold, optional
+#'
+#' @export
+
 pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8) {
   opts_sel <- list(n_trials = 50, threshold = feature_selection_th, return_count = FALSE)
 
