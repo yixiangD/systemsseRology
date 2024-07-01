@@ -84,6 +84,13 @@ pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8
 }
 
 
+#' My customized plotting schemes for PLS-DA barplots
+#' This function performs customized plotting for PLS-DA.
+#'
+#' @param model, trained ropls object
+#' @param options, list of plotting options
+#' @return None
+#' @export
 my_visualize_ropls_loadings_bar <- function(model, options = list()) {
   # ----------------- BEGIN OPTIONS ----------------- #
   if (!("LV_ind" %in% names(options))) {
@@ -177,7 +184,7 @@ my_visualize_ropls_loadings_bar <- function(model, options = list()) {
   # plot loadings sorted according to the VIP score and color coding it
   # according to enrichent in classes
   if (options$mark_enrichment) {
-    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = LV, fill = mark)) +
+    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = stringr::str_wrap(LV, 20), fill = mark)) +
       ggplot2::scale_fill_manual(values = options$colors[[y_name]])
   } else {
     plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = LV))
