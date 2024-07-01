@@ -8,7 +8,8 @@
 #' @param saved.dir, exporting directory/path
 #' @param prefix, prefix to the file names
 #' @param feature_selection_th, feature selection threshold (optional)
-#' @return None
+#' @return a list [sel_features, df_score] containing selected features and
+#' dataframe of latent space scores
 #' @export
 
 pls_da <- function(X, y, clr.grps, saved.dir, prefix, feature_selection_th = 0.8) {
@@ -187,7 +188,7 @@ my_visualize_ropls_loadings_bar <- function(model, options = list()) {
     plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = stringr::str_wrap(LV, 20), fill = mark)) +
       ggplot2::scale_fill_manual(values = options$colors[[y_name]])
   } else {
-    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = LV))
+    plt_bar <- ggplot2::ggplot(data = df_loadings, ggplot2::aes(x = features, y = stringr::str_wrap(LV, 20)))
   }
   plt_bar <- plt_bar +
     ggplot2::geom_bar(stat = "identity", color = "black") +
