@@ -1,0 +1,22 @@
+# YAML 1.2
+# Metadata for citation of this software according to the CFF format (https://citation-file-format.github.io/)
+---
+authors:
+  -
+    affiliation: "Ragon Institute of Mass General, MIT, and Harvard"
+    family-names: Deng
+    given-names: Yixiang"
+"
+cff-version: "1.0.3"
+date-released: 2024-02-17
+doi: 10.5281/zenodo.1064391
+license: MIT
+message: "If you use this software, please cite it as below."
+repository-code: "https://github.com/yixiangd/systemsseRology"
+title: "systemsseRology: Machine learning tools for the analysis of systems serology data"
+abstract: systemsseRology is a collection of functions used to analyze multivariate systems serology data. It provides a convenient and pipelined interface for visualizing univariate, correlations, and latent space plots of PCA and PLS-DA.
+keywords:
+  - "machine-learning"
+  - "omics-data"
+  - "visualization"
+
